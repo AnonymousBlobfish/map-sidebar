@@ -10,4 +10,6 @@ if (restaurantId[restaurantId.length - 1] === '/') {
   restaurantId = restaurantId.substring(0, restaurantId.length - 1);
 }
 
+restaurantId = parseInt(restaurantId);
+
 ReactDOM.render(<App restaurantId={restaurantId} restaurant={null}/>, document.getElementById('sidebar-app'));

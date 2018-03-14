@@ -16,20 +16,20 @@ class App extends React.Component {
     axios.get(location.origin + '/api/restaurants/' + id + '/sidebar')
       .then((response) => {
         console.log('received:', response);
-        this.setState({ restaurant: response.data.result });
+        this.setState({ restaurant: response.data });
       }).catch((err) => {
         console.error('Failed to fetch restaurant data from server:', err);
       });
   }
 
   render() {
-    if (!this.state.restaurant) {
+    if (!this.state.restaurant || !this.state.restaurant.geometry) {
       return <div> Loading Sidebar... </div>;
     } else {
       return (
         <div className="sidebar-flexbox-col sidebar-app">
           <InfoList restaurant={this.state.restaurant} />
-          <MapContainer geometry={this.state.restaurant.geometry} />
+          <MapContainer geometry={JSON.parse(this.state.restaurant.geometry)} />
         </div>
       );
     }
