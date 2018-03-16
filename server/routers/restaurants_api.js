@@ -4,6 +4,7 @@ var getRestaurantById = require('../../db/controllers/getRestaurantById.js');
 
 router.get('/:id/sidebar', (req, res) => {
   var restaurantId = req.params.id;
+  restaurantId = parseInt(restaurantId);
   getRestaurantById(restaurantId).then((result) => {
     res.send(result);
   });
