@@ -5,7 +5,7 @@ import { OpeningHours } from './OpeningHours.jsx';
 var InfoList = (props) => {
   var info = {
     openingHours: {
-      data: props.restaurant.opening_hours,
+      data: JSON.parse(props.restaurant.opening_hours),
       icon: 'fas fa-clock fa-lg',
       link: {url: null, newTab: false}
     },
@@ -27,7 +27,7 @@ var InfoList = (props) => {
     directions: {
       text: 'Get Directions',
       icon: 'fas fa-compass fa-lg',
-      link: {url: props.restaurant.url, newTab: true}
+      link: {url: props.restaurant.website, newTab: true}
     }
   };
 

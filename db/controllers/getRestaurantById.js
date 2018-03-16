@@ -1,4 +1,4 @@
-var database = require('../models/restaurant.js');
+var database = require('../models/restaurantSQL.js');
 
 module.exports = (id) => {
   return database.find({ 'id': id })
