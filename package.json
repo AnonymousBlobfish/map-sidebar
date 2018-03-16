@@ -43,12 +43,18 @@
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "faker": "^4.1.0",
     "google-maps-react": "^1.1.2",
     "jquery": "^3.3.1",
+    "json2csv": "^4.0.2",
+    "jsonfile": "^4.0.0",
     "mongoose": "^5.0.6",
     "morgan": "^1.9.0",
+    "mysql": "^2.15.0",
+    "promisify": "^0.0.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "stream-json": "^0.5.2",
     "underscore": "^1.8.3"
   },
   "jest": {}
