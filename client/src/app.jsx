@@ -23,13 +23,13 @@ class App extends React.Component {
   }
 
   render() {
-    if (!this.state.restaurant || !this.state.restaurant.geometry) {
+    if (!this.state.restaurant || !this.state.restaurant.lat) {
       return <div> Loading Sidebar... </div>;
     } else {
       return (
         <div className="sidebar-flexbox-col sidebar-app">
           <InfoList restaurant={this.state.restaurant} />
-          <MapContainer geometry={JSON.parse(this.state.restaurant.geometry)} />
+          <MapContainer lat={this.state.restaurant.lat} lng={this.state.restaurant.lng} />
         </div>
       );
     }

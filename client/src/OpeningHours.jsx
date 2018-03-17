@@ -20,24 +20,20 @@ class OpeningHours extends React.Component {
       weekdayNow = 6;
     }
 
-    var hours = now.getHours().toString();
-    var minutes = now.getMinutes().toString();
-    if (minutes.length === 1) {
-      minutes = '0' + minutes;
-    }
-    var timeNow = Number(hours + minutes);
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    var timeNow = Number(hours + minutes / 60);
 
-    var openNow = _.some(this.props.info.data.periods, (period) => {
-      var timeOpen = Number(period.open.time);
-      var timeClose = Number(period.close.time);
-      if (period.open.day !== weekdayNow && period.close.day !== weekdayNow) {
+    var openNow = _.some(this.props.info.data, (period, index) => {
+      var timeOpen = Number(period[0].substring(0, period[0].length - 2));
+      var timeClose = Number(period[1].substring(0, period[1].length - 2)) + 12;
+      console.log('Open: ', timeOpen);
+      console.log('Close: ', timeClose);
+      console.log('Now: ', timeNow);
+      if (index !== weekdayNow) {
         return false;
-      } else if (period.open.day === weekdayNow && period.close.day === weekdayNow) {
+      } else {
         return timeNow >= timeOpen && timeNow <= timeClose;
-      } else if (period.open.day === weekdayNow) {
-        return timeNow >= timeOpen;
-      } else if (period.close.day === weekdayNow) {
-        return timeNow <= timeClose;
       }
     });
 
@@ -54,23 +50,20 @@ class OpeningHours extends React.Component {
     if (weekdayNow === -1) {
       weekdayNow = 6;
     }
-    var range = this.props.info.data.weekday_text[weekdayNow].split(': ')[1];
-    var time1;
-    var time2;
-    if (range.includes(', ')) {
-      time1 = range.split(', ')[0];
-      time2 = range.split(', ')[1];
-    } else {
-      time1 = range;
-      time2 = null;
-    }
+    var range = this.props.info.data[weekdayNow];
+    var time1 = range[0];
+    time1 = time1.substring(0, time1.length - 2);
+    time1 += ':00AM';
+    var time2 = range[1];
+    time2 = time2.substring(0, time2.length - 2);
+    time2 += ':00PM';
 
     return { time1: time1, time2: time2 };
   }
 
   render() {
     try {
-      var testPropData = this.props.info.data.periods[0].close;
+      var testPropData = this.props.info.data[0];
     } catch(error) {
       return <div></div>;
     }
@@ -97,7 +90,7 @@ class OpeningHours extends React.Component {
           </div>
         </div>
         <div className="sidebar-flexbox-col sidebar-periods" style={ this.state.showPeriods ? {display: 'flex'} : {'display': 'none'}}>
-          <Periods weekdayText={this.props.info.data.weekday_text}/>
+          <Periods opening_hours={this.props.info.data}/>
         </div>
       </div>
     );
@@ -105,17 +98,16 @@ class OpeningHours extends React.Component {
 }
 
   var Periods = (props) => {
-    var periodDivs = _.map(props.weekdayText, (period, index) => {
-      var weekday = period.split(': ')[0];
-      var time1;
-      var time2;
-      if (period.includes(', ')) {
-        time1 = period.split(': ')[1].split(', ')[0];
-        time2 = period.split(': ')[1].split(', ')[1];
-      } else {
-        time1 = period.split(': ')[1];
-        time2 = null;
-      }
+    let weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    let periodDivs = [];
+    for (var i = 0; i < 7; i++) {
+      let weekday = weekdays[i];
+      let time1 = props.opening_hours[i][0];
+      time1 = time1.substring(0, time1.length - 2);
+      time1 += ':00AM';
+      let time2 = props.opening_hours[i][1];
+      time2 = time2.substring(0, time2.length - 2);
+      time2 += ':00PM';
 
       var periodObj = {
         weekday: weekday,
@@ -128,25 +120,26 @@ class OpeningHours extends React.Component {
         weekdayNum = 6;
       }
 
-      return (
-        <div key={index} className="sidebar-flexbox-col sidebar-periods-element"
-          style={{'fontWeight': weekdayNum === index ? 'bold' : 'normal'}} >
-          <div className="sidebar-flexbox-row sidebar-periods-element-info">
-            <div className="sidebar-periods-element-day" >{periodObj.weekday}</div>
-            <div className="sidebar-periods-element-time">{periodObj.time1}</div>
-          </div>
-          <div className="sidebar-periods-element-info-additional">
-            <div className="sidebar-periods-element-time">{periodObj.time2}</div>
-          </div>
+      periodDivs.push(
+        <div key={i} className="sidebar-flexbox-col sidebar-periods-element"
+            style={{'fontWeight': weekdayNum === i ? 'bold' : 'normal'}} >
+            <div className="sidebar-flexbox-row sidebar-periods-element-info">
+              <div className="sidebar-periods-element-day" >{periodObj.weekday}</div>
+              <div className="sidebar-periods-element-time">{periodObj.time1}</div>
+            </div>
+            <div className="sidebar-periods-element-info-additional">
+              <div className="sidebar-periods-element-time">{periodObj.time2}</div>
+            </div>
         </div>
-      )
-    });
+      );
+
+    }
 
   return (
       <div className="sidebar-flexbox-col sidebar-periods">
         {periodDivs}
       </div>
-  )
+  );
 };
 
 export { OpeningHours, Periods};
