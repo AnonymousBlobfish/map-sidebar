@@ -1,4 +1,4 @@
-var promisify = require('promisify');
+var Promise = require('bluebird');
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -8,10 +8,13 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
-var queryPromise = promisify(connection.query);
 
 var find = (queryObj) => {
-  return queryPromise('SELECT * FROM RESTAURANTS WHERE id=' + queryObj.id);
+  return new Promise(function(resolve, reject) {
+     connection.query('SELECT * FROM restaurants WHERE id=' + queryObj.id, function(err, data) {
+       return (err ? reject(err) : resolve(data));
+     });
+  });
 };
 
 exports.find = find;
