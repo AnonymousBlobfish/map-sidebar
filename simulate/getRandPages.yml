@@ -3,10 +3,12 @@ config:
   phases:
     - duration: 30
       arrivalRate: 1
-      rampTo: 2000
+      rampTo: 60
     - duration: 30
-      arrivalRate: 2000
+      arrivalRate: 60
 scenarios:
   - flow:
-    - get:
-        url: "/restaurants/{{$randomNumber(1,10000000)}}/"
+    - loop:
+      - get:
+          url: "/restaurants/{{$randomNumber(1,10000000)}}/"
+      count: 200

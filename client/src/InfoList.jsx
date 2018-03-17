@@ -3,9 +3,13 @@ import _ from 'underscore';
 import { OpeningHours } from './OpeningHours.jsx';
 
 var InfoList = (props) => {
+  props.restaurant.opening_hours = props.restaurant.opening_hours.split('"').join('').split('~');
+  props.restaurant.opening_hours = props.restaurant.opening_hours.map((day) => {
+    return day.split('^');
+  });
   var info = {
     openingHours: {
-      data: JSON.parse(props.restaurant.opening_hours),
+      data: props.restaurant.opening_hours,
       icon: 'fas fa-clock fa-lg',
       link: {url: null, newTab: false}
     },
@@ -20,14 +24,14 @@ var InfoList = (props) => {
       link: {url: 'tel:' + props.restaurant.international_phone_number, newTab: false}
     },
     website: {
-      text: props.restaurant.website,
+      text: props.restaurant.url,
       icon: 'fas fa-globe fa-lg',
-      link: {url: props.restaurant.website, newTab: true}
+      link: {url: props.restaurant.url, newTab: true}
     },
     directions: {
       text: 'Get Directions',
       icon: 'fas fa-compass fa-lg',
-      link: {url: props.restaurant.website, newTab: true}
+      link: {url: props.restaurant.url, newTab: true}
     }
   };
 
@@ -36,14 +40,14 @@ var InfoList = (props) => {
       <OpeningHours info={info.openingHours} />
       <InfoListElement info={info.address} />
       <InfoListElement info={info.phone} />
-      <InfoListElement info={info.website} />
+      <InfoListElement info={info.url} />
       <InfoListElement info={info.directions} />
     </div>
   );
 };
 
 var InfoListElement = (props) => {
-  if (!props.info.text) {
+  if (!props.info || !props.info.text) {
     return <div></div>;
   } else {
     return (
