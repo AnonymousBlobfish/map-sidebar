@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-
 var path = require('path');
 var cors = require('cors');
 var morgan = require('morgan');
@@ -23,6 +22,10 @@ app.get('/bundle.js', (req, res) => {
 app.use('/restaurants', restaurantsRouter);
 
 app.use('/api/restaurants', restaurantsApiRouter);
+
+app.get('/api/restaurants/:id/string', (req, res) => {
+  
+});
 
 
 

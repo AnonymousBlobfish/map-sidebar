@@ -5,6 +5,10 @@ data/
 bundle.js
 bundle.js.map
 
+# data
+*.csv
+*.json
+
 # Logs
 logs
 *.log
