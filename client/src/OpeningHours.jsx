@@ -27,9 +27,6 @@ class OpeningHours extends React.Component {
     var openNow = _.some(this.props.info.data, (period, index) => {
       var timeOpen = Number(period[0].substring(0, period[0].length - 2));
       var timeClose = Number(period[1].substring(0, period[1].length - 2)) + 12;
-      console.log('Open: ', timeOpen);
-      console.log('Close: ', timeClose);
-      console.log('Now: ', timeNow);
       if (index !== weekdayNow) {
         return false;
       } else {

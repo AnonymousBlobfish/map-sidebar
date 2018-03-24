@@ -3,10 +3,6 @@ import _ from 'underscore';
 import { OpeningHours } from './OpeningHours.jsx';
 
 var InfoList = (props) => {
-  props.restaurant.opening_hours = props.restaurant.opening_hours.split('"').join('').split('~');
-  props.restaurant.opening_hours = props.restaurant.opening_hours.map((day) => {
-    return day.split('^');
-  });
   var info = {
     openingHours: {
       data: props.restaurant.opening_hours,
