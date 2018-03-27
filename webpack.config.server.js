@@ -7,6 +7,7 @@ module.exports = {
   output: {
     filename: "./server/server_bundle.js"
   },
+  mode: 'production',
   module: {
     rules: [
       {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
