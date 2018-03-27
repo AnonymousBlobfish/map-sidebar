@@ -2,7 +2,7 @@ var Promise = require('bluebird');
 var mysql      = require('mysql');
 var pool  = mysql.createPool({
   connectionLimit : 100,
-  host     : '34.202.163.192',
+  host     : '184.73.128.205',
   user     : 'remote',
   password : '',
   database : 'wegot'

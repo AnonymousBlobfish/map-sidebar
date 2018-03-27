@@ -1,8 +1,9 @@
 module.exports = {
   entry: "./client/src/index.jsx",
   output: {
-    filename: "./client/dist/bundle.js"
+    filename: "../client/dist/bundle.js"
   },
+  mode: 'production',
   module: {
     rules: [
       {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},

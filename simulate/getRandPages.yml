@@ -1,5 +1,5 @@
 config:
-  target: 'http://localhost:3003'
+  target: 'http://54.226.101.184:4001'
   phases:
     - duration: 30
       arrivalRate: 1
@@ -10,5 +10,5 @@ scenarios:
   - flow:
     - loop:
       - get:
-          url: "/restaurants/{{$randomNumber(1,10000000)}}/"
+          url: "/restaurants/serverside/{{$randomNumber(1,10000000)}}/"
       count: 200
