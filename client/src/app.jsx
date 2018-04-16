@@ -6,30 +6,25 @@ import MapContainer from './MapContainer.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      restaurant: props.restaurant
-    };
-    this.getRestaurantData(props.restaurantId);
-  }
-
-  getRestaurantData (id) {
-    axios.get(location.origin + '/api/restaurants/' + id + '/sidebar')
-      .then((response) => {
-        console.log('received:', response);
-        this.setState({ restaurant: response.data });
-      }).catch((err) => {
-        console.error('Failed to fetch restaurant data from server:', err);
-      });
   }
 
   render() {
-    if (!this.state.restaurant || !this.state.restaurant.lat) {
-      return <div> Loading Sidebar... </div>;
+    if (!this.props.restaurant || !this.props.restaurant.lat) {
+      if (!window || !window.mapState) {
+        return <div> Loading Sidebar... </div>;
+      } else {
+        return (
+          <div className="sidebar-flexbox-col sidebar-app">
+          <InfoList restaurant={window.mapState} />
+          <MapContainer lat={window.mapState.lat} lng={window.mapState.lng} />
+          </div>
+        );
+      }
     } else {
       return (
         <div className="sidebar-flexbox-col sidebar-app">
-          <InfoList restaurant={this.state.restaurant} />
-          <MapContainer lat={this.state.restaurant.lat} lng={this.state.restaurant.lng} />
+          <InfoList restaurant={this.props.restaurant} />
+          {/* <MapContainer lat={this.props.restaurant.lat} lng={this.props.restaurant.lng} /> */}
         </div>
       );
     }
